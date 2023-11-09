@@ -1,0 +1,70 @@
+CREATE TABLE Empleados (
+    ID serial PRIMARY KEY,
+    Nombre VARCHAR(50),
+    Apellido VARCHAR(50),
+    Salario NUMERIC(10, 2)
+);
+
+-- Insertar 15 registros de ejemplo
+INSERT INTO Empleados (Nombre, Apellido, Salario)
+VALUES
+     ('Juan', 'Pérez', 60000.00),
+    ('María', 'Gómez', 55000.00),
+    ('Luis', 'Martínez', 62000.00),
+    ('Ana', 'López', 58000.00),
+    ('Roberto', 'Fernández', 70000.00),
+    ('Sofía', 'Hernández', 62000.00),
+    ('Javier', 'Sánchez', 63000.00),
+    ('Carolina', 'González', 57000.00),
+    ('Alejandro', 'Pérez', 65000.00),
+    ('Lucía', 'Martínez', 64000.00),
+    ('Miguel', 'Gómez', 68000.00),
+    ('Valeria', 'López', 59000.00),
+    ('Ricardo', 'Fernández', 72000.00),
+    ('Camila', 'Hernández', 60000.00),
+    ('Diego', 'Sánchez', 59000.00);
+
+-- Aumentar el salario de todos los empleados en un 23%:
+UPDATE Empleados
+SET Salario = Salario * 1.23;
+
+-- Consulta para mostrar el nombre, apellido y salario de los empleados ordenados por salario de mayor a menor:
+SELECT Nombre, Apellido, Salario
+FROM Empleados
+ORDER BY Salario DESC;
+
+-- Borrar todos los empleados cuyos nombres comienzan con la letra 'R':
+DELETE FROM Empleados
+WHERE Nombre LIKE 'R%';
+
+-- Agregar dos empleados con sueldos de $500,000 y $750,000 respectivamente:
+INSERT INTO Empleados (Nombre, Apellido, Salario)
+VALUES ('Emilio', 'González', 500000.00),
+       ('Isabel', 'Hernández', 750000.00);
+
+-- Agregar la columna "Sección" para especificar el lugar de trabajo de los empleados:
+ALTER TABLE Empleados
+ADD COLUMN Sección VARCHAR(50);
+
+-- Asignar a los empleados a sus respectivas secciones (AdmBasesDeDatos, QA y Desarrollo de Software) como se indica:
+UPDATE Empleados
+SET Sección = 'AdmBasesDeDatos'
+WHERE ID IN (16, 17);
+
+UPDATE Empleados
+SET Sección = 'QA'
+WHERE ID BETWEEN 5 AND 9;
+
+UPDATE Empleados
+SET Sección = 'Desarrollo de Software'
+WHERE Sección IS NULL;
+
+-- Consulta para encontrar empleados de QA que ganan más de $200,000 después del aumento del 23%:
+SELECT Nombre, Apellido, Salario
+FROM Empleados
+WHERE Sección = 'QA' AND Salario > 200000.00;
+
+-- Consulta para contar cuántos empleados ganan más de $500,000:
+SELECT COUNT(*)
+FROM Empleados
+WHERE Salario > 500000.00;

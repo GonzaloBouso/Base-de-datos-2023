@@ -1,0 +1,74 @@
+-- Crear la tabla Alumno
+CREATE TABLE Alumno (
+    Legajo INT PRIMARY KEY,
+    Nombre VARCHAR(50),
+    Apellido VARCHAR(50),
+    Email VARCHAR(100)
+);
+
+-- Insertar datos de ejemplo en la tabla Alumno
+INSERT INTO Alumno (Legajo, Nombre, Apellido, Email)
+VALUES
+    (1, 'Gonzalo', 'Bouso', 'gonzalobou@gmail.com'),
+    (2, 'Patricio', 'Gómez', 'pato123@gmail.com'),
+    (3, 'Carlos', 'López', 'carlos@example.com');
+
+-- Crear la tabla Editorial
+CREATE TABLE Editorial (
+    Código INT PRIMARY KEY,
+    Nombre VARCHAR(100)
+);
+
+-- Insertar datos de ejemplo en la tabla Editorial
+INSERT INTO Editorial (Código, Nombre)
+VALUES
+    (101, 'Editorial A'),
+    (102, 'Editorial B'),
+    (103, 'Editorial C');
+
+-- Crear la tabla Libro
+CREATE TABLE Libro (
+    ISBN VARCHAR(13) PRIMARY KEY,
+    Título VARCHAR(100),
+    Editorial INT,
+    FOREIGN KEY (Editorial) REFERENCES Editorial(Código)
+);
+
+-- Insertar datos de ejemplo en la tabla Libro
+INSERT INTO Libro (ISBN, Título, Editorial)
+VALUES
+    ('9781234567890', 'Libro 1', 101),
+    ('9782345678901', 'Libro 2', 102),
+    ('9783456789012', 'Libro 3', 103);
+
+-- Crear la tabla Lectura (Tabla intermedia para la relación entre Alumno y Libro)
+CREATE TABLE Lectura (
+    ID_Lectura INT PRIMARY KEY,
+    Legajo_Alumno INT,
+    ISBN_Libro VARCHAR(13),
+    FOREIGN KEY (Legajo_Alumno) REFERENCES Alumno(Legajo),
+    FOREIGN KEY (ISBN_Libro) REFERENCES Libro(ISBN)
+);
+
+-- Insertar datos de ejemplo en la tabla Lectura
+INSERT INTO Lectura (ID_Lectura, Legajo_Alumno, ISBN_Libro)
+VALUES
+    (1, 1, '9781234567890'),
+    (2, 2, '9782345678901'),
+    (3, 1, '9782345678901');
+
+-- Consulta para mostrar todos los alumnos
+SELECT * FROM Alumno;
+
+-- Consulta para mostrar todos los alumnos ordenados por legajo de menos a mayor
+SELECT * FROM Alumno ORDER BY Legajo ASC;
+
+-- Consulta para mostrar todos los alumnos ordenados por nombre de menos a mayor
+SELECT * FROM Alumno ORDER BY Nombre ASC;
+
+-- Consulta para mostrar ISBN y editorial de libros ordenados por editorial de menos a mayor
+SELECT ISBN, Editorial FROM Libro ORDER BY Editorial ASC;
+
+-- Consulta para mostrar libros ordenados por título de menos a mayor
+SELECT * FROM Libro ORDER BY Título ASC;
+
